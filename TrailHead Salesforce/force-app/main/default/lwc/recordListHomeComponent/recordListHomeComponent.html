@@ -1,0 +1,59 @@
+<template>
+    <lightning-card title="Recently Created Records">
+        <lightning-layout>
+            <lightning-layout-item size="6" class="slds-p-around_small">
+                <lightning-combobox
+                    label="Select Entity"
+                    options={entityOptions}
+                    value={selectedEntity}
+                    onchange={handleEntityChange}
+                    class="slds-size_full"
+                ></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="3" class="slds-p-around_small">
+                <lightning-input
+                    type="number"
+                    label="Number of Records"
+                    value={numberOfRecords}
+                    onchange={handleNumberOfRecordsChange}
+                    class="slds-size_full"
+                ></lightning-input>
+            </lightning-layout-item>
+
+            <div if:true={columns}>
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <fieldset class="slds-form-element">
+                            <legend class="slds-form-element__legend slds-form-element__label">Select Columns</legend>
+                            <div class="slds-form-element__control">
+                                <lightning-dual-listbox
+                                    label="Select Columns"
+                                    source-options={allColumns}
+                                    value={selectedColumns}
+                                    onchange={handleColumnChange}>
+                                </lightning-dual-listbox>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <lightning-layout-item size="3" class="slds-p-around_small">
+                <lightning-button label="Fetch Records" onclick={handleFetchRecords} class="slds-size_full"></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        <template if:true={records}>
+            <div class="slds-m-top_medium">
+                <lightning-datatable
+                    key-field="Id"
+                    data={records}
+                    columns={columns}
+                    onrowaction={handleRowAction}
+                ></lightning-datatable>
+            </div>
+        </template>
+    </lightning-card>
+</template>

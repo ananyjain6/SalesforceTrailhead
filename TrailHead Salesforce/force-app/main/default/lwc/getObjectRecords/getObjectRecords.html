@@ -1,0 +1,53 @@
+<template>
+    <lightning-card title="Recent Records">
+        <div class="slds-m-around_medium">
+            <lightning-combobox
+                label="Select Entity"
+                options={entityOptions}
+                onchange={handleEntityChange}
+                value={selectedEntity}>
+            </lightning-combobox>
+            
+            <lightning-input type="number"
+                label="Number of Records"
+                min="1"
+                max={maxRecords}
+                value={selectedRecordCount}
+                onchange={handleRecordCountChange}>
+            </lightning-input>
+
+            <div if:true={columns}>
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <fieldset class="slds-form-element">
+                            <legend class="slds-form-element__legend slds-form-element__label">Select Columns</legend>
+                            <div class="slds-form-element__control">
+                                <lightning-dual-listbox
+                                    label="Select Columns"
+                                    source-options={allColumns}
+                                    value={selectedColumns}
+                                    onchange={handleColumnChange}>
+                                </lightning-dual-listbox>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <template if:true={recentRecords.data}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={recentRecords.data}
+                    columns={selectedColumns}
+                    onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </template>
+
+            <template if:true={recentRecords.error}>
+                <div class="slds-text-color_error">
+                    {error}
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
